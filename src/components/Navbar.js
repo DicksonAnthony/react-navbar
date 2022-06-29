@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   NavbarContainer,
   LeftContainer,
@@ -7,13 +7,16 @@ import {
   NavbarExtendedContainer,
   NavbarLinkContainer,
   NavbarLink,
+  NavbarExtendedLink,
   Logo,
   OpenLinksButton,
 } from "./styles/Navbar.styled";
 import LogoImg from "./assets/mtn.png";
 const Navbar = () => {
+  const [extendNavbar, setExtendNavbar] = useState(false);
+
   return (
-    <NavbarContainer>
+    <NavbarContainer extendNavbar={extendNavbar}>
       <NavbarInnerContainer>
         <LeftContainer>
           <NavbarLinkContainer>
@@ -21,14 +24,27 @@ const Navbar = () => {
             <NavbarLink to="/products">Products</NavbarLink>
             <NavbarLink to="/contact">Contact Us</NavbarLink>
             <NavbarLink to="/about">About Us</NavbarLink>
-            <OpenLinksButton>&#8801;</OpenLinksButton>
+            <OpenLinksButton
+              onClick={() => {
+                setExtendNavbar((curr) => !curr);
+              }}
+            >
+              {extendNavbar ? <>&#10005;</> : <>&#8801;</>}
+            </OpenLinksButton>
           </NavbarLinkContainer>
         </LeftContainer>
         <RightContainer>
           <Logo src={LogoImg}></Logo>
         </RightContainer>
       </NavbarInnerContainer>
-      <NavbarExtendedContainer></NavbarExtendedContainer>
+      {extendNavbar && (
+        <NavbarExtendedContainer>
+          <NavbarExtendedLink to="/">Home</NavbarExtendedLink>
+          <NavbarExtendedLink to="/products">Products</NavbarExtendedLink>
+          <NavbarExtendedLink to="/contact">Contact Us</NavbarExtendedLink>
+          <NavbarExtendedLink to="/about">About Us</NavbarExtendedLink>
+        </NavbarExtendedContainer>
+      )}
     </NavbarContainer>
   );
 };
